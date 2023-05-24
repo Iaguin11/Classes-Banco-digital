@@ -1,25 +1,33 @@
-const Deposit = require("./Deposit")
-
  module.exports = class Account { 
-  #balanceValue = 0
-  allDeposits = []
-  allLoans = []
-  allInstallment = []
-    constructor(balance, deposits, loans, installment, accountOwner){
-      this.#balanceValue = balance
-      this.allDeposits = deposits
-      this.allLoans = loans
-      this.allInstallment = installment
+  #balanceValue 
+  
+    constructor(user){
+      this.owner = user
+      this.#balanceValue = 0
+      this.deposits = []
+      this.loans = []
+      this.transfers = []
     }
-    get VerSaldo(){
-      return {
-        balance : this.#balanceValue
+    get balance(){
+      return this.#balanceValue
+    }
+
+    addDeposits(deposit){
+      this.#balanceValue += deposit.value
+      this.deposits.push(deposit)
+    }
+    addLoan(loan){
+      this.#balanceValue =+ loan.value 
+      this.loans.push(loan)
+    }
+    addTransfer(transfer){
+      if(transfer.toUser.email === this.owner.email){
+        this.#balanceValue += transfer.value
+        this.transfers.push(transfer)
+      }else if (transfer.fromUser.email === this.owner.email){
+        this.#balanceValue -= transfer.value
+        this.transfers.push(transfer)
       }
-    }
-    newDeposits(deposits){
-      // let newDeposits = new Deposit(deposits,new Date())
-      deposits += this.#balanceValue
-      deposits += this.allDeposits
     }
 }
 

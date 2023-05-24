@@ -1,19 +1,22 @@
 const Installment = require("./Installment")
 
 module.exports = class Loan {
-  static #taxaDeJuros = 0 + '%'
-  constructor(valueLoan, creatinDate,installmentsLoan){
-    this.valueLoan = valueLoan
-    this.creatinDate = creatinDate
-    this.installmentsLoan = installmentsLoan * Installment
+  static #feejuros = 1.05
+  constructor(value, installment){
+    this.valueLoan = value
+    this.Installment = installment
+    for(let i = 1 ; i<= installment; i++){
+      this.Installment.push(new Installment((value * Loan.#feejuros)/ Installment, i))
+    }
+    this.createdAt = new Date()
   }
 
-  static get seeInterest(){
-    return Loan.#taxaDeJuros
+  static get fee(){
+    return Loan.#feejuros
   }
 
-  static setNewTaxadeJuros(taxa){
-    Loan.#taxaDeJuros = taxa
+  static set fee(newFeePercentage) {
+    Loan.#feejuros = 1 + (newFeePercentage / 100)
   }
 }
 
