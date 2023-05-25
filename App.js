@@ -40,7 +40,7 @@ module.exports = class App {
       user.account.addLoan(newLoan)
     }
   }
-  static set fee(newFee){
+  static changeLoanFee(newFee){
     Loan.fee = newFee
   }
 }
