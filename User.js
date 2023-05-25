@@ -1,9 +1,9 @@
 const Account = require("./Account")
 
 module.exports = class User {
-  constructor(email, fullname){
+  constructor(email, fullName){
     this.email = email
-    this.fullname = fullname
+    this.fullName = fullName
     this.account = new Account(this)
   }
 }

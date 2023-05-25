@@ -1,45 +1,46 @@
-const User = require("./entities/User")
-const Deposit = require("./entities/Deposit")
-const Transfer = require("./entities/Transfer")
-const Loan = require("./entities/Loan")
+const Deposit = require("./Deposit")
+const Loan = require("./Loan")
+const Transfer = require("./Transfer")
+const User = require("./User")
 
-module.exports = class App {
-  static #userApp = []
-  
+module.exports = class App { 
+  static #users = []
+
   static findUser(email){
-    const user = this.#userApp.find(user => user.email === email)
+    const user = this.#users.find(user => user.email === email)
     return user ?? null
   }
-  static createUser(email, fullname){
+  static createUser(email, fullName){
     const userExists = App.findUser(email)
-    if (!userExists){
-      this.#userApp.push(new User(email, fullname))
+    if(!userExists){
+      this.#users.push(new User(email, fullName))
     }
   }
+
   static deposit(email, value){
     const user = App.findUser(email)
-    if (user) {
+    if(user){
       const newDeposit = new Deposit(value)
-      User.account.addDeposit(newDeposit)
+      user.account.addDeposit(newDeposit)
     }
   }
-  static transfer(fromUserEmail, toUserEmail, value) {
+  static transfer(fromUserEmail, toUserEmail, value){
     const fromUser = App.findUser(fromUserEmail)
     const toUser = App.findUser(toUserEmail)
-    if (fromUser && toUser) {
+    if(fromUser && toUser){
       const newTransfer = new Transfer(fromUser, toUser, value)
       fromUser.account.addTransfer(newTransfer)
       toUser.account.addTransfer(newTransfer)
     }
   }
-  static takeLoan(email, value, numberOfInstallments) {
+  static takeLoan(email, value, numberInstallments){
     const user = App.findUser(email)
-    if (user) {
-      const newLoan = new Loan(value, numberOfInstallments)
+    if (user){
+      const newLoan = new Loan(value, numberInstallments)
       user.account.addLoan(newLoan)
     }
   }
-  static changeLoanFee(newFeePercentage) {
-    Loan.fee = newFeePercentage
+  static set fee(newFee){
+    Loan.fee = newFee
   }
 }

@@ -1,8 +1,7 @@
-module.exports = class Installment{ 
+module.exports = class Installment { 
   constructor(value, number){
     this.value = value
     this.number = number 
-    this.situation = 'pending'
-
+    this.status = 'pending'
   }
 }
